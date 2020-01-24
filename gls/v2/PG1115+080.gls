@@ -1,0 +1,107 @@
+### Automatically generated GLASS config script for a single lens
+###############################################################################
+import os
+import numpy as np
+
+try:
+    from Cocoa import NSSound
+    from time import sleep
+    sound = NSSound.alloc()
+    sound.initWithContentsOfFile_byReference_('/System/Library/Sounds/Glass.aiff', True)
+except ImportError:
+    sound = False
+
+
+### Meta info
+dpath = ''
+fname = 'PG1115+080'
+fpath = os.path.join(dpath, fname)
+glass_basis('glass.basis.pixels', solver='rwalk')
+meta(author='GLSCFactory', notes='single-config-mode')
+setup_log(fpath+'.log')
+
+
+### Sampler config
+samplex_random_seed(0)
+samplex_acceptance(rate=0.25, tol=0.15)
+
+exclude_all_priors()
+include_prior(
+    'lens_eq',
+    'time_delay',
+    'profile_steepness',
+    'J3gradient',
+    'magnification',
+#    'hubble_constant',
+    'PLsmoothness3',
+#   'shared_h',
+    'external_shear'
+)
+
+
+### Cosmology
+omega(0.27, 0.73)
+# hubble_constant(72.032)
+# hubble_time(13.7)
+
+
+###############################################################################
+### Lens
+name = 'PG1115+080'
+zl = 0.311
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0.5, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(45)
+
+# mapr = 1.83
+# maprad(mapr)
+
+
+### Source
+zs = 1.735
+
+# _ABCD = [[-0.0068523243341109975, 1.219713731471766],
+#          [-0.9045068121026022, -1.0347009744507683],
+# 	   [-1.144338163796474, -0.6167091900699945],
+#	   [0.7194940550816148, -0.6441184874064391]]
+_ABCD = [[0.11439883300091856, 1.3727859960110342],
+         [-0.7864919768813123, -0.872291101632015],
+         [-1.058189205258495, -0.4289956237534523],
+         [0.8579912475068856, -0.45759533200368047]]
+# maybe also try min_switch
+# [[0.381, 1.344], [-0.947, -0.69], [-1.096, -0.232], [0.722, -0.617]]
+# _parity =
+pos_par_td = [[0.11439883300091856, 1.3727859960110342], 'min', [-0.7864919768813123, -0.872291101632015], 'min', None, [-1.058189205258495, -0.4289956237534523], 'sad', None, [0.8579912475068856, -0.45759533200368047], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.3)
+
+source(zs, *pos_par_td)
+
+tdelay = [0, 13.3, None, 11.7]
+tderr = [0, 0.9, None, 1.5]
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+
+###############################################################################
+model(1000)
+savestate(fpath+'.state')
+
+if sound:
+    sound.play()
+    sleep(1)
+    sound.stop()

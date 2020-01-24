@@ -1,0 +1,85 @@
+### Automatically generated GLASS config script for a single lens
+###############################################################################
+import os
+import numpy as np
+
+
+### Meta info
+dpath = ''
+fname = 'WFIJ2033-4723'
+fpath = os.path.join(dpath, fname)
+glass_basis('glass.basis.pixels', solver='rwalk')
+meta(author='GLSCFactory', notes='single-config-mode')
+setup_log(fpath+'.log')
+
+
+### Sampler config
+samplex_random_seed(0)
+samplex_acceptance(rate=0.25, tol=0.15)
+
+exclude_all_priors()
+include_prior(
+    'lens_eq',
+    'time_delay',
+    'profile_steepness',
+    'J3gradient',
+    'magnification',
+#    'hubble_constant',
+    'PLsmoothness3',
+#   'shared_h',
+    'external_shear'
+)
+
+
+### Cosmology
+omega(0.27, 0.73)
+# hubble_constant(72.032)
+# hubble_time(13.7)
+
+
+###############################################################################
+### Lens
+name = 'WFIJ2033-4723'
+zl = 0.661
+globject(name)
+zlens(zl)
+
+pixrad(10)
+steepness(0.25, None)
+hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(45)
+
+mapr = 1.8349
+maprad(mapr)
+
+
+### Source
+zs = 1.66
+
+# _ABCD = 
+# _parity =
+pos_par_td = [[-1.439, -0.311], 'min', [0.756, 0.949], 'min', None, [0.044, 1.068], 'sad', None, [0.674, -0.5891], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.1)
+
+source(zs, *pos_par_td)
+
+tdelay = [0, 35.5, None, 27.1]
+tderr = [0, 1.4, None, 4.1]
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+
+###############################################################################
+model(1000)
+savestate(fpath+'.state')
