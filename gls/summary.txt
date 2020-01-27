@@ -1,0 +1,125 @@
+# LENSES
+
+B1422+231      - None  # exclude: contradicting values from literature
+B0218+357      - v2    # D-K:     lens position unsure... time-delays want to be smaller
+B1600+434      - v2    # D-K:     .fits px2arcsec wrong, papers report 1/4 pixel scale
+FBQ0951+2635   - v2    # D-G:     lens position was moved a bit away
+HE1104-1805    - v2    # D-G:     H0 a bit high; ext. masses don't work
+HE2149-2745    - v2    # D-K:     high shear?
+PKS1830-211    - v2    # D-K:     positions hard to identify
+Q0957+561      - v2    # 2D-K:    Fadely et al. 2010 shows additional double
+SBS0909+532    - v2    # D-K:     lens not easily visible
+SBS1520+530    - v2    # D-K:     saddle point a bit scragged; lens position unclear
+SDSSJ1206+4332 - v2    # D-G:     positions work relatively well
+SDSSJ1650+4251 - v2    # D-G:     arc/ring not taken into account, but might be reproduced
+B1608+656      - v2    # Q-G:     ext. mass doesn't make much difference
+HE0435-1223    - v2    # Q-G:     an H0 of 71!
+PG1115+080     - v2    # Q-G:     too round?
+RXJ0911+0551   - v2    # Q-K:     ext. mass as satellite in Kneib et al. 2000; no impact
+RXJ1131-1231   - v2    # Q-G:     ext. mass as satellite visible in HST data
+SDSSJ1004+4112 - v2    # Q-G:     straight-forward
+WFIJ2033-4723  - v2    # Q-G:     might need more shear, but otherwise good
+
+
+# REFERENCES
+
+@article{B0218_Biggs18,
+  author = {{Biggs}, A.~D. and {Browne}, I.~W.~A.},
+  title = {A revised lens time delay for JVAS B0218+357 from a reanalysis of VLA monitoring data},
+  journal = {\mnras},
+  volume = {476},
+  number = {4},
+  pages = {5393-5407},
+  year = {2018},
+  month = {6},
+  doi = {10.1093/mnras/sty565},
+  eprint = {1802.10088},
+  archivePrefix = {arXiv},
+  primaryClass = {astro-ph.CO},
+  adsurl = {https://ui.adsabs.harvard.edu/abs/2018MNRAS.476.5393B},
+  adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+
+
+@article{B1608_Fassnacht99,
+  author = {{Fassnacht}, C.~D. and {Pearson}, T.~J. and {Readhead}, A.~C.~S. and {Browne}, I.~W.~A. and {Koopmans}, L.~V.~E. and {Myers}, S.~T. and {Wilkinson}, P.~N.},
+  title = {A Determination of H$_{0}$ with the CLASS Gravitational Lens B1608+656. I. Time Delay Measurements with the VLA},
+  journal = {\apj},
+  volume = {527},
+  number = {2},
+  pages = {498-512},
+  year = {1999},
+  month = {12},
+  doi = {10.1086/308118},
+  eprint = {astro-ph/9907257},
+  archivePrefix = {arXiv},
+  primaryClass = {astro-ph},
+  adsurl = {https://ui.adsabs.harvard.edu/abs/1999ApJ...527..498F},
+  adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+
+
+@article{B1608_Koopmans99,
+  author = {{Koopmans}, L.~V.~E. and {Fassnacht}, C.~D.},
+  title = {A Determination of H$_{0}$ with the CLASS Gravitational Lens B1608+656. II. Mass Models and the Hubble Constant from Lensing},
+  journal = {\apj},
+  volume = {527},
+  number = {2},
+  pages = {513-524},
+  year = {1999},
+  month = {12},
+  doi = {10.1086/308120},
+  eprint = {astro-ph/9907258},
+  archivePrefix = {arXiv},
+  primaryClass = {astro-ph},
+  adsurl = {https://ui.adsabs.harvard.edu/abs/1999ApJ...527..513K},
+  adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+
+
+@article{B1608_Fassnacht02,
+  author = {{Fassnacht}, C.~D. and {Xanthopoulos}, E. and {Koopmans}, L.~V.~E. and {Rusin}, D.},
+  title = {A Determination of H$_{0}$ with the CLASS Gravitational Lens B1608+656. III. A Significant Improvement in the Precision of the Time Delay Measurements},
+  journal = {\apj},
+  volume = {581},
+  number = {2},
+  pages = {823-835},
+  year = {2002},
+  month = {12},
+  doi = {10.1086/344368},
+  eprint = {astro-ph/0208420},
+  archivePrefix = {arXiv},
+  primaryClass = {astro-ph},
+  adsurl = {https://ui.adsabs.harvard.edu/abs/2002ApJ...581..823F},
+  adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+
+
+@article{FBQ0951_Jakobsson05,
+	author = {{Jakobsson, P.} and {Hjorth, J.} and {Burud, I.} and {Letawe, G.} and {Lidman, C.} and {Courbin, F.}},
+	title = {An optical time delay for the double gravitational lens system FBQ 0951+2635*},
+	journal = {A\&A},
+	volume = {431},
+	number = {1},
+	pages = {103-109},
+	year = {2005},
+	doi = {10.1051/0004-6361:20041432},
+	URL = {https://doi.org/10.1051/0004-6361:20041432},
+}
+
+
+@article{HE0435_Kochanek06,
+	author = {C. S. Kochanek and N. D. Morgan and E. E. Falco and B. A. McLeod and J. N. Winn and J. Dembicky and B. Ketzeback},
+	title = {The Time Delays of Gravitational Lens {HE} 0435-1223: An Early-Type Galaxy with a Rising Rotation Curve},
+	publisher = {{IOP} Publishing},
+	journal = {The Astrophysical Journal}
+	volume = {640},
+	number = {1},
+	pages = {47--61},
+	year = 2006,
+	month = {3},
+	doi = {10.1086/499766},
+	URL = {https://doi.org/10.1086%2F499766},
+}
+
+
