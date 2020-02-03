@@ -1,0 +1,761 @@
+### Automatically generated GLASS config script for multiple lenses
+###############################################################################
+import os
+import numpy as np
+
+# try:
+#     from Cocoa import NSSound
+#     from time import sleep
+#     sound = NSSound.alloc()
+#     sound.initWithContentsOfFile_byReference_('/System/Library/Sounds/Glass.aiff', True)
+# except ImportError:
+#     sound = False
+
+
+### Meta info
+dpath = ''
+fname = 'all_CMB'
+fpath = os.path.join(dpath, fname)
+glass_basis('glass.basis.pixels', solver='rwalk')
+meta(author='GLSCFactory', notes='single-config-mode')
+setup_log(fpath+'.log')
+
+
+### Sampler config
+samplex_random_seed(0)
+samplex_acceptance(rate=0.25, tol=0.15)
+
+exclude_all_priors()
+include_prior(
+    'lens_eq',
+    'time_delay',
+    'profile_steepness',
+    'J3gradient',
+    'magnification',
+    'PLsmoothness3',
+    'hubble_constant',
+    'shared_h',
+#    'source_position_quadrant',
+    'external_mass',
+    'external_shear'
+)
+
+
+### Cosmology
+omega(0.27, 0.73)
+hubble_constant(67.4)  # Planck VI. (2018)
+
+###############################################################################
+### Lens
+name = 'B0218+357'
+zl = 0.685
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0.5, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(45)
+
+### Source
+zs = 0.944
+
+pos_par_td = [[0.1980, -0.0941], 'min', [-0.1093, 0.0332], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.3)
+
+source(zs, *pos_par_td)
+
+tdelay = [0, 11.3]  # Biggs et al. (2018)  @ 5 sigma
+tderr = [0, 2.0]    # Biggs et al. (2018) @ 5 sigma
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+
+###############################################################################
+### Lens
+name = 'B1600+434'
+zl = 0.414
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0.5, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(45)
+
+
+### Source
+zs = 1.589
+
+pos_par_td = [[-0.9202223780518468, -0.5164513346209343], 'min', [0.19719050958253886, 0.3943810191650775], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.1)
+
+source(zs, *pos_par_td)
+
+# tdelay = [0, 51]  # (Burud et al. 2000)
+# tderr = [0, 4]  # (Burud et al. 2000)
+tdelay = [0, 47]  # (Koopmans et al. 2000)
+tderr = [0, 6]  # (Koopmans et al. 2000)
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+
+###############################################################################
+## Lens
+name = 'B1608+656'
+zl = 0.63
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(45)
+
+### Source
+zs = 1.39
+
+pos_par_td = [[-0.8215179170393514, 1.2798384391770945], 'min', [1.0982397417262912, 0.42373029405187596], 'min', None, [0.6745094476744152, 1.2020104259838928], 'sad', None, [-0.22483648255813793, -0.6399192195885473], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.3)
+
+source(zs, *pos_par_td)
+
+tdelay = [0, 31.5, 4.5, 41]  # Koopmans et al. (2003) from Fassnacht et al. (2002)
+tderr = [0, 1.5, 1.5, 1.5]  # Koopmans et al. (2003) from Fassnacht et al. (2002)
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+extx, exty = 0.13836091234347025, 0.7869276889534842
+extm = PointMass(extx, exty, rc=0)
+external_mass(extm, (0.1, 10))
+
+
+###############################################################################
+### Lens
+name = 'FBQ0951+2635'
+zl = 0.26
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0.5, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(45)
+
+### Source
+zs = 1.246
+
+pos_par_td = [[-0.6350988147914237, 0.5878361507606975], 'min', [0.22168543535172372, -0.27313598924234367], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.3)
+
+source(zs, *pos_par_td)
+
+tdelay = [0, 16]  # Jakobson et al. (2005)
+tderr = [0, 6]    # 1 sigma = 2.0
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+
+###############################################################################
+### Lens
+name = 'HE0435-1223'
+zl = 0.454
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0.5, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(45)
+
+### Source
+zs = 1.689
+
+pos_par_td = [[1.349227055918535, -0.35714833833135134], 'min', [-1.1805736739287171, -0.06944551023109592], 'min', None, [-0.059524723055229024, -1.0912865893457953], 'sad', None, [0.18849495634156008, 1.1309697380492787], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.3)
+
+source(zs, *pos_par_td)
+
+tdelay = [0, 2.1, 6, 8.37]  # Kochanek et al. (2006)
+tderr = [0, 0.78, 1.07, 1.31]  # Kochanek et al. (2006)
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+
+###############################################################################
+### Lens
+name = 'HE1104-1805'
+zl = 0.729
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0.5, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(45)
+
+### Source
+zs = 2.32
+
+pos_par_td = [[-1.6857490220228313, 1.227908880663085], 'min', [0.9296410047920035, -0.57711717391165], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.3)
+
+source(zs, *pos_par_td)
+
+tdelay = [0, 152.2]
+tderr = [0, 2.8]
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+
+###############################################################################
+### Lens
+name = 'HE2149-2745'
+zl = 0.603
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0.5, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(45)
+
+### Source
+zs = 2.03
+
+pos_par_td = [[0.6766008907521261, -1.0893274341109227], 'min', [-0.1894482494105951, 0.35183246319110567], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+    # shear(0.1)
+else:
+    shear(0.3)
+
+source(zs, *pos_par_td)
+
+tdelay = [0, 103]
+tderr = [0, 12]
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+
+###############################################################################
+### Lens
+name = 'PG1115+080'
+zl = 0.311
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0.5, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(45)
+
+### Source
+zs = 1.735
+
+pos_par_td = [[0.11439883300091856, 1.3727859960110342], 'min', [-0.7864919768813123, -0.872291101632015], 'min', None, [-1.058189205258495, -0.4289956237534523], 'sad', None, [0.8579912475068856, -0.45759533200368047], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.3)
+
+source(zs, *pos_par_td)
+
+tdelay = [0, 13.3, None, 11.7]
+tderr = [0, 0.9, None, 1.5]
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+
+###############################################################################
+### Lens
+name = 'PKS1830-211'
+zl = 0.886
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0.25, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(45)
+
+### Source
+zs = 2.51
+
+pos_par_td = [[-0.5, 0.46], 'min', [0.15, -0.26], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.1)
+
+source(zs, *pos_par_td)
+
+tdelay = [0, 26]
+tderr = [0, 4]
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+
+###############################################################################
+### Lens
+name = 'Q0957+561'
+zl = 0.3562
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0.5, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(45)
+
+### Source
+zs = 1.413
+
+# Fadely et al. (2010)
+pos_par_td = [[1.408, 5.034], 'min',
+              [0.182, -1.018], 'sad', None]
+AB1 = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(AB1) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.1)
+
+source(zs, *pos_par_td)
+
+tdelay = [0, 422.6]
+tderr = [0, 0.6]
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            delay(AB1[i], AB1[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+
+### Source 2
+# Fadely et al. (2010)
+pos_par_td2 = [[2.878, 3.453], 'min',
+               [-1.362, -0.043], 'sad', None]
+AB2 = pos_par_td2[0:1]+pos_par_td2[2:-1:3]
+
+if len(AB2) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.1)
+
+source(zs, *pos_par_td2)
+
+
+###############################################################################
+### Lens
+name = 'RXJ0911+0551'
+zl = 0.769
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0.5, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(45)
+
+### Source
+zs = 2.763
+
+pos_par_td = [[-2.2662, 0.2904], 'min', [0.963, -0.0951], 'min', None, [0.7019, -0.5020], 'sad', None, [0.6861, 0.4555], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.3)
+
+source(zs, *pos_par_td)
+
+tdelay = [0, 146, None, None]
+tderr = [0, 8, None, None]
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+# Kneib et al. 2000
+extx, exty = -0.7582, 0.6658
+extm = PointMass(extx, exty, rc=0)
+external_mass(extm, (0.01, 10))
+
+
+###############################################################################
+### Lens
+name = 'RXJ1131-1231'
+zl = 0.295
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0.5, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(45)
+
+### Source
+zs = 0.658
+
+pos_par_td = [[1.3918710359378075, 1.6384899817144896], 'min', [-0.9619391085965819, 2.055620893404116], 'min', None, [0.28945362647234485, 2.1301085562058364], 'sad', None, [-0.2319600131397004, -1.1771436721905677], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+else:
+    # shear(0.3)
+    shear(0.1)
+
+source(zs, *pos_par_td)
+
+tdelay = [0, 1.5, 9.61, 87]
+tderr = [0, 2.49, 1.97, 8]
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+extx, exty = 0.5141027773820483, -0.13709407396854595
+extm = PointMass(extx, exty, rc=0)
+external_mass(extm, (0.05, 10))
+
+
+###############################################################################
+### Lens
+name = 'SBS0909+532'
+zl = 0.83
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0.25, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(45)
+
+### Source
+zs = 1.378
+
+pos_par_td = [[-0.7377502774771574, 0.15522252086267785], 'min', [0.22197795959489694, -0.43332953740830965], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.1)
+
+source(zs, *pos_par_td)
+
+tdelay = [0, 45]
+tderr = [0, [-11, 1]]
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            if isinstance(tderr[i+1], (tuple, list, np.ndarray)):
+                delay(ABCD[i], ABCD[i+1], [td+tderr[i+1][0], td+tderr[i+1][1]])
+            else:
+                delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+
+###############################################################################
+### Lens
+name = 'SBS1520+530'
+zl = 0.761
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0.25, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(45)
+
+### Source
+zs = 1.855
+
+pos_par_td = [[-0.6696314126869938, 0.967195167247847], 'min', [0.39180561380622, -0.18355528721492004], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.1)
+
+source(zs, *pos_par_td)
+
+tdelay = [0, 130]
+tderr = [0, 3]
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+
+###############################################################################
+### Lens
+name = 'SDSSJ1004+4112'
+zl = 0.68
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0.25, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(45)
+
+### Source
+zs = 1.74
+
+pos_par_td = [[8.852434352730377, -4.439400331912108], 'min', [-5.7576138274618565, -6.356717047537057], 'min', None, [-2.4633367822600545, -8.187610441094272], 'sad', None, [-2.3694804899075335, 4.637769248253825], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.2)
+
+source(zs, *pos_par_td)
+
+tdelay = [0, 821.6, 40.6, None]
+tderr = [0, 2.1, 1.8, None]
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+
+###############################################################################
+### Lens
+name = 'SDSSJ1206+4332'
+zl = 0.748
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0.25, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(45)
+
+### Source
+zs = 1.789
+
+pos_par_td = [[-1.1090492127439804, -1.5364952634890667], 'min',
+              [1.2938907482013116, 0.34657787898249615], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.1)
+
+source(zs, *pos_par_td)
+
+tdelay = [0, 116]
+tderr = [0, 4]
+
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+
+###############################################################################
+### Lens
+name = 'SDSSJ1650+4251'
+zl = 0.577
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0.25, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(45)
+
+### Source
+zs = 1.547
+
+pos_par_td = [[0.8710551343169088, -1.055894416327995], 'min', [0.26395610130815256, 0.9239076142869974], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.1)
+
+source(zs, *pos_par_td)
+
+tdelay = [0, 49.5]
+tderr = [0, 1.9]
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+
+###############################################################################
+### Lens
+name = 'WFIJ2033-4723'
+zl = 0.661
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0.25, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(45)
+
+### Source
+zs = 1.66
+
+pos_par_td = [[0.5946102218550208, 1.3532508497390003], 'min', [0.30755701130431934, -1.2097242444636473], 'min', None, [0.861159631652097, -0.6561216241158678], 'sad', None, [-0.8816634324057222, -0.22554180828982365], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.1)
+
+source(zs, *pos_par_td)
+
+tdelay = [0, 35.5, None, 27.1]
+tderr = [0, 1.4, None, 4.1]
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+
+###############################################################################
+model(1000)
+savestate(fpath+'.state')
+
+# if sound:
+#     sound.play()
+#     sleep(1)
+#     sound.stop()
