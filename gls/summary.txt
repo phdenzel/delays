@@ -12,6 +12,7 @@ SBS0909+532    - v2    # D-K:     lens not easily visible
 SBS1520+530    - v2    # D-K:     saddle point a bit scragged; lens position unclear
 SDSSJ1206+4332 - v2    # D-G:     positions work relatively well
 SDSSJ1650+4251 - v2    # D-G:     arc/ring not taken into account, but might be reproduced
+
 B1608+656      - v2    # Q-G:     ext. mass doesn't make much difference
 HE0435-1223    - v2    # Q-G:     an H0 of 71!
 PG1115+080     - v2    # Q-G:     too round?
