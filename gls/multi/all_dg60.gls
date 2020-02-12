@@ -1,4 +1,4 @@
-\### Automatically generated GLASS config script for multiple lenses
+### Automatically generated GLASS config script for multiple lenses
 ###############################################################################
 import os
 import numpy as np
