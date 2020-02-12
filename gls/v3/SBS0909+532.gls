@@ -14,7 +14,7 @@ except ImportError:
 
 ### Meta info
 dpath = ''
-fname = 'SDSSJ1650+4251'
+fname = 'SBS0909+532'
 fpath = os.path.join(dpath, fname)
 glass_basis('glass.basis.pixels', solver='rwalk')
 meta(author='GLSCFactory', notes='single-config-mode')
@@ -43,8 +43,8 @@ omega(0.27, 0.73)
 
 ###############################################################################
 ### Lens
-name = 'SDSSJ1650+4251'
-zl = 0.577
+name = 'SBS0909+532'
+zl = 0.83
 globject(name)
 zlens(zl)
 
@@ -53,12 +53,19 @@ steepness(0.25, None)
 # hires(1, 3)
 
 smooth(2, include_central_pixel=False)
-local_gradient(45)
+local_gradient(60)
 
 ### Source
-zs = 1.547
+zs = 1.378
 
-pos_par_td = [[0.8710551343169088, -1.055894416327995], 'min', [0.26395610130815256, 0.9239076142869974], 'sad', None]
+# _ABCD = [[-0.6955971738967969, 0.47522837003247437],
+#	   [0.23186572463226507, -0.1267275653419933]]
+# _ABCD = [[-0.7377502774771574, 0.15522252086267785],
+#          [0.22197795959489694, -0.43332953740830965]]
+_ABCD = [[-0.7051064598896727, 0.23930138632996217],
+         [0.2415642501473879, -0.3492506719410253]]
+# [[0.572, 0.494], 'min', [-0.415, -0.004]]
+pos_par_td = [[-0.7377502774771574, 0.15522252086267785], 'min', [0.22197795959489694, -0.43332953740830965], 'sad', None]
 ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
 
 if len(ABCD) < 4:
@@ -69,13 +76,16 @@ else:
 
 source(zs, *pos_par_td)
 
-tdelay = [0, 49.5]
-tderr = [0, 1.9]
+tdelay = [0, 45]
+tderr = [0, [-11, 1]]
 # explicit time delays
 if tdelay:
     for i, td in enumerate(tdelay[1:]):
         if td:
-            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+            if isinstance(tderr[i+1], (tuple, list, np.ndarray)):
+                delay(ABCD[i], ABCD[i+1], [td+tderr[i+1][0], td+tderr[i+1][1]])
+            else:
+                delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
 
 
 ###############################################################################

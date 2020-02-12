@@ -14,7 +14,7 @@ except ImportError:
 
 ### Meta info
 dpath = ''
-fname = 'B1608+656'
+fname = 'SDSSJ1004+4112'
 fpath = os.path.join(dpath, fname)
 glass_basis('glass.basis.pixels', solver='rwalk')
 meta(author='GLSCFactory', notes='single-config-mode')
@@ -33,8 +33,7 @@ include_prior(
     'J3gradient',
     'magnification',
     'PLsmoothness3',
-#    'shared_h',
-    'external_mass',
+#   'shared_h',
     'external_shear'
 )
 
@@ -44,43 +43,48 @@ omega(0.27, 0.73)
 
 ###############################################################################
 ### Lens
-name = 'B1608+656'
-zl = 0.63
+name = 'SDSSJ1004+4112'
+zl = 0.68
 globject(name)
 zlens(zl)
 
 pixrad(8)
-steepness(0, None)
+steepness(0.25, None)
 # hires(1, 3)
 
 smooth(2, include_central_pixel=False)
-local_gradient(45)
+local_gradient(60)
 
 ### Source
-zs = 1.39
+zs = 1.74
 
-pos_par_td = [[-0.8215179170393514, 1.2798384391770945], 'min', [1.0982397417262912, 0.42373029405187596], 'min', None, [0.6745094476744152, 1.2020104259838928], 'sad', None, [-0.22483648255813793, -0.6399192195885473], 'sad', None]
+# _ABCD = [[8.832290155657526, -4.438265220161551],
+#          [-5.768613205129752, -6.355969403705452],
+#          [-2.4822760173617597, -8.188713439008858],
+#          [-2.38363912836953, 4.645504306292178]]
+# _ABCD = [[8.852434352730377, -4.439400331912108],
+#	   [-5.7576138274618565, -6.356717047537057],
+#	   [-2.4633367822600545, -8.187610441094272],
+#	   [-2.3694804899075335, 4.637769248253825]]
+# [[3.9437, -8.868], [-8.4136, -0.86], [-7.0963, -4.389], [1.3032, 5.327]]
+pos_par_td = [[8.852434352730377, -4.439400331912108], 'min', [-5.7576138274618565, -6.356717047537057], 'min', None, [-2.4633367822600545, -8.187610441094272], 'sad', None, [-2.3694804899075335, 4.637769248253825], 'sad', None]
 ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
 
 if len(ABCD) < 4:
     symm()
     shear(0.01)
 else:
-    shear(0.3)
+    shear(0.2)
 
 source(zs, *pos_par_td)
 
-tdelay = [0, 31.5, 4.5, 41]  # Koopmans et al. (2003) from Fassnacht et al. (2002)
-tderr = [0, 1.5, 1.5, 1.5]  # Koopmans et al. (2003) from Fassnacht et al. (2002)
+tdelay = [0, 821.6, 40.6, None]
+tderr = [0, 2.1, 1.8, None]
 # explicit time delays
 if tdelay:
     for i, td in enumerate(tdelay[1:]):
         if td:
             delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
-
-extx, exty = 0.13836091234347025, 0.7869276889534842
-extm = PointMass(extx, exty, rc=0)
-external_mass(extm, (0.1, 10))
 
 
 ###############################################################################
@@ -89,5 +93,5 @@ savestate(fpath+'.state')
 
 if sound:
     sound.play()
-    sleep(2)
+    sleep(1)
     sound.stop()

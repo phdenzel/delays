@@ -14,7 +14,7 @@ except ImportError:
 
 ### Meta info
 dpath = ''
-fname = 'RXJ1131-1231'
+fname = 'WFIJ2033-4723'
 fpath = os.path.join(dpath, fname)
 glass_basis('glass.basis.pixels', solver='rwalk')
 meta(author='GLSCFactory', notes='single-config-mode')
@@ -34,7 +34,6 @@ include_prior(
     'magnification',
     'PLsmoothness3',
 #   'shared_h',
-    'external_mass',
     'external_shear'
 )
 
@@ -44,44 +43,50 @@ omega(0.27, 0.73)
 
 ###############################################################################
 ### Lens
-name = 'RXJ1131-1231'
-zl = 0.295
+name = 'WFIJ2033-4723'
+zl = 0.661
 globject(name)
 zlens(zl)
 
 pixrad(8)
-steepness(0.5, None)
+steepness(0.25, None)
 # hires(1, 3)
 
 smooth(2, include_central_pixel=False)
-local_gradient(45)
+local_gradient(60)
 
 ### Source
-zs = 0.658
+zs = 1.66
 
-pos_par_td = [[1.3918710359378075, 1.6384899817144896], 'min', [-0.9619391085965819, 2.055620893404116], 'min', None, [0.28945362647234485, 2.1301085562058364], 'sad', None, [-0.2319600131397004, -1.1771436721905677], 'sad', None]
+# _ABCD = [[0.6589303309222543, 1.4524808369791617],
+#	   [0.4676279767835354, -1.0698761287017233],
+#	   [0.9706823154446116, -0.5384807005386157],
+#	   [-0.7652094165548764, -0.14170544751016165]]
+_ABCD = [[0.5946102218550208, 1.3532508497390003],
+         [0.30755701130431934, -1.2097242444636473],
+         [0.861159631652097, -0.6561216241158678],
+         [-0.8816634324057222, -0.22554180828982365]]
+# [[-1.439, -0.311], [0.756, 0.949], [0.044, 1.068], [0.674, -0.5891]]
+# _parity =
+pos_par_td = [[0.5946102218550208, 1.3532508497390003], 'min', [0.30755701130431934, -1.2097242444636473], 'min', None, [0.861159631652097, -0.6561216241158678], 'sad', None, [-0.8816634324057222, -0.22554180828982365], 'sad', None]
 ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
 
 if len(ABCD) < 4:
     symm()
     shear(0.01)
 else:
-    # shear(0.3)
     shear(0.1)
 
 source(zs, *pos_par_td)
 
-tdelay = [0, 1.5, 9.61, 87]
-tderr = [0, 2.49, 1.97, 8]
+tdelay = [0, 35.5, None, 27.1]
+tderr = [0, 1.4, None, 4.1]
 # explicit time delays
 if tdelay:
     for i, td in enumerate(tdelay[1:]):
         if td:
             delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
 
-extx, exty = 0.5141027773820483, -0.13709407396854595
-extm = PointMass(extx, exty, rc=0)
-external_mass(extm, (0.05, 10))
 
 ###############################################################################
 model(1000)

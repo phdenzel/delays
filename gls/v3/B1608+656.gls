@@ -1,0 +1,118 @@
+### Automatically generated GLASS config script for a single lens
+###############################################################################
+import os
+import numpy as np
+
+try:
+    from Cocoa import NSSound
+    from time import sleep
+    sound = NSSound.alloc()
+    sound.initWithContentsOfFile_byReference_('/System/Library/Sounds/Glass.aiff', True)
+except ImportError:
+    sound = False
+
+
+### Meta info
+dpath = ''
+fname = 'B1608+656'
+fpath = os.path.join(dpath, fname)
+glass_basis('glass.basis.pixels', solver='rwalk')
+meta(author='GLSCFactory', notes='single-config-mode')
+setup_log(fpath+'.log')
+
+
+### Sampler config
+samplex_random_seed(0)
+samplex_acceptance(rate=0.25, tol=0.15)
+
+exclude_all_priors()
+include_prior(
+    'lens_eq',
+    'time_delay',
+    'profile_steepness',
+    'J3gradient',
+    'magnification',
+#    'hubble_constant',
+    'PLsmoothness3',
+#    'shared_h',
+    'external_mass',
+    'external_shear'
+)
+
+
+### Cosmology
+omega(0.27, 0.73)
+# hubble_constant(72.032)
+# hubble_time(13.7)
+
+
+###############################################################################
+### Lens
+name = 'B1608+656'
+zl = 0.63
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0.5, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(60)
+
+# mapr = 1.5  # default: 1.7381
+# maprad(mapr)
+
+
+### Source
+zs = 1.39
+
+# _ABCD = [[-0.8215179170393514, 1.2798384391770945],
+#	   [1.0982397417262912, 0.42373029405187596],
+# 	   [0.6745094476744152, 1.2020104259838928],
+#	   [-0.22483648255813793, -0.6399192195885473],
+# 	   [0.13836091234347025, 0.7869276889534842]]  # lower point for L w/ ExtM@[-1]
+# _ABCD = [[-0.9559315337231832, 0.5040366268722234],
+#	   [0.9472412470529722, -0.36499204014885256],
+#	   [0.5474880602232775, 0.41713376017011616],
+#	   [-0.3823726134892733, -1.4252070139145638],
+#	   [-0.13904458672337158, -0.7821258003189681]] # upper point for L w/ ExtM@[-1]
+# [[-1.1549, -0.896], [-0.4189, 1.059], [-1.1649, 0.61], [0.7139, -0.197]]
+# _parity =
+pos_par_td = [[-0.8215179170393514, 1.2798384391770945], 'min', [1.0982397417262912, 0.42373029405187596], 'min', None, [0.6745094476744152, 1.2020104259838928], 'sad', None, [-0.22483648255813793, -0.6399192195885473], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.3)
+
+source(zs, *pos_par_td)
+
+# tdelay = [0, 31.5, None, 41]  # Paraficz et al. (2010)
+# tderr = [0, 1.5, None, 1.5]  # Paraficz et al. (2010)
+tdelay = [0, 31.5, 4.5, 41]  # Koopmans et al. (2003) from Fassnacht et al. (2002)
+tderr = [0, 1.5, 1.5, 1.5]  # Koopmans et al. (2003) from Fassnacht et al. (2002)
+
+
+# explicit time delays
+if tdelay:
+    for i, td in enumerate(tdelay[1:]):
+        if td:
+            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+
+
+extx, exty = 0.13836091234347025, 0.7869276889534842
+extm = PointMass(extx, exty, rc=0)
+external_mass(extm, (0.1, 10))
+
+
+###############################################################################
+model(1000)
+savestate(fpath+'.state')
+
+if sound:
+    sound.play()
+    sleep(2)
+    sound.stop()

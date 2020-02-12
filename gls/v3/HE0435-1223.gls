@@ -14,7 +14,7 @@ except ImportError:
 
 ### Meta info
 dpath = ''
-fname = 'HE1104-1805'
+fname = 'HE0435-1223'
 fpath = os.path.join(dpath, fname)
 glass_basis('glass.basis.pixels', solver='rwalk')
 meta(author='GLSCFactory', notes='single-config-mode')
@@ -32,19 +32,23 @@ include_prior(
     'profile_steepness',
     'J3gradient',
     'magnification',
+#    'hubble_constant',
     'PLsmoothness3',
-#    'shared_h',
+#   'shared_h',
     'external_shear'
 )
 
 
 ### Cosmology
 omega(0.27, 0.73)
+# hubble_constant(72.032)
+# hubble_time(13.7)
+
 
 ###############################################################################
 ### Lens
-name = 'HE1104-1805'
-zl = 0.729
+name = 'HE0435-1223'
+zl = 0.454
 globject(name)
 zlens(zl)
 
@@ -53,12 +57,22 @@ steepness(0.5, None)
 # hires(1, 3)
 
 smooth(2, include_central_pixel=False)
-local_gradient(45)
+local_gradient(60)
+
+# mapr = 2.0289
+# maprad(mapr)
+
 
 ### Source
-zs = 2.32
+zs = 1.689
 
-pos_par_td = [[-1.6857490220228313, 1.227908880663085], 'min', [0.9296410047920035, -0.57711717391165], 'sad', None]
+# _ABCD = [[1.349227055918535, -0.35714833833135134],
+# 	   [-1.1805736739287171, -0.06944551023109592],
+#	   [-0.059524723055229024, -1.0912865893457953],
+#	   [0.18849495634156008, 1.1309697380492787]]
+# [[-1.165, 0.573], [1.3109, -0.03], [0.311, 1.126], [-0.226, -1.041]]
+# _parity =
+pos_par_td = [[1.349227055918535, -0.35714833833135134], 'min', [-1.1805736739287171, -0.06944551023109592], 'min', None, [-0.059524723055229024, -1.0912865893457953], 'sad', None, [0.18849495634156008, 1.1309697380492787], 'sad', None]
 ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
 
 if len(ABCD) < 4:
@@ -69,8 +83,9 @@ else:
 
 source(zs, *pos_par_td)
 
-tdelay = [0, 152.2]
-tderr = [0, 2.8]
+tdelay = [0, 2.1, 6, 8.37]  # Kochanek et al. (2006)
+tderr = [0, 0.78, 1.07, 1.31]  # Kochanek et al. (2006)
+
 # explicit time delays
 if tdelay:
     for i, td in enumerate(tdelay[1:]):

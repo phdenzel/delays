@@ -14,7 +14,7 @@ except ImportError:
 
 ### Meta info
 dpath = ''
-fname = 'HE2149-2745'
+fname = 'B0218+357'
 fpath = os.path.join(dpath, fname)
 glass_basis('glass.basis.pixels', solver='rwalk')
 meta(author='GLSCFactory', notes='single-config-mode')
@@ -32,19 +32,24 @@ include_prior(
     'profile_steepness',
     'J3gradient',
     'magnification',
+#    'hubble_constant',
     'PLsmoothness3',
-#   'shared_h',
+#    'shared_h',
+#    'external_mass',
     'external_shear'
 )
 
 
 ### Cosmology
 omega(0.27, 0.73)
+# hubble_constant(72.032)
+# hubble_time(13.7)
+
 
 ###############################################################################
 ### Lens
-name = 'HE2149-2745'
-zl = 0.603
+name = 'B0218+357'
+zl = 0.685
 globject(name)
 zlens(zl)
 
@@ -53,30 +58,50 @@ steepness(0.5, None)
 # hires(1, 3)
 
 smooth(2, include_central_pixel=False)
-local_gradient(45)
+local_gradient(60)
+
+# mapr = 0.25  # default: 0.2152
+# maprad(mapr)
+
 
 ### Source
-zs = 2.03
+zs = 0.944
 
-pos_par_td = [[0.6766008907521261, -1.0893274341109227], 'min', [-0.1894482494105951, 0.35183246319110567], 'sad', None]
+# _ABCD = [[0.16410257059712194, -0.09230769596088108],
+#          [-0.1461538519380617, 0.029487180654170365]]
+# _ABCD = [[-0.1980, 0.0941],
+#          [0.1093, 0.0332]]
+# [[0.25, -0.119], [-0.052, 0.007]]
+# _parity =
+# pos_par_td = [[0.16410257059712194, -0.09230769596088108], 'min', [-0.1461538519380617, 0.029487180654170365], 'sad', None]
+pos_par_td = [[0.1980, -0.0941], 'min', [-0.1093, 0.0332], 'sad', None]
 ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
 
 if len(ABCD) < 4:
     symm()
     shear(0.01)
-    # shear(0.1)
 else:
     shear(0.3)
 
 source(zs, *pos_par_td)
 
-tdelay = [0, 103]
-tderr = [0, 12]
+# tdelay = [0, 10.1]  # Paraficz et al. (2010) @ 95% c.l.
+# tderr = [0, 1.6]  # Paraficz et al. (2010) @ 95% c.l.
+# tdelay = [0, 9.9]  # Eulaers et al. (2011)
+# tderr = [0, [-0.9, 4.0]]  # Eulaers et al. (2011)
+tdelay = [0, 11.3]  # Biggs et al. (2018)  @ 5 sigma
+tderr = [0, 2.0]  # Biggs et al. (2018) @ 5 sigma
+
+
 # explicit time delays
 if tdelay:
     for i, td in enumerate(tdelay[1:]):
         if td:
-            delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
+            err = tderr[i+1]
+            if isinstance(err, (list, tuple, np.ndarray)):
+                delay(ABCD[i], ABCD[i+1], [td+err[0], td+err[1]])
+            else:
+                delay(ABCD[i], ABCD[i+1], [td-err, td+err])
 
 
 ###############################################################################
@@ -85,5 +110,5 @@ savestate(fpath+'.state')
 
 if sound:
     sound.play()
-    sleep(1)
+    sleep(2)
     sound.stop()

@@ -14,7 +14,7 @@ except ImportError:
 
 ### Meta info
 dpath = ''
-fname = 'SBS1520+530'
+fname = 'RXJ1131-1231'
 fpath = os.path.join(dpath, fname)
 glass_basis('glass.basis.pixels', solver='rwalk')
 meta(author='GLSCFactory', notes='single-config-mode')
@@ -34,6 +34,7 @@ include_prior(
     'magnification',
     'PLsmoothness3',
 #   'shared_h',
+    'external_mass',
     'external_shear'
 )
 
@@ -43,40 +44,61 @@ omega(0.27, 0.73)
 
 ###############################################################################
 ### Lens
-name = 'SBS1520+530'
-zl = 0.761
+name = 'RXJ1131-1231'
+zl = 0.295
 globject(name)
 zlens(zl)
 
 pixrad(8)
-steepness(0.25, None)
+steepness(0.5, None)
 # hires(1, 3)
 
 smooth(2, include_central_pixel=False)
-local_gradient(45)
+local_gradient(60)
+
+# mapr = 4.526
+# maprad(mapr)
+
 
 ### Source
-zs = 1.855
+zs = 0.658
 
-pos_par_td = [[-0.6696314126869938, 0.967195167247847], 'min', [0.39180561380622, -0.18355528721492004], 'sad', None]
+# _ABCD = [[1.4052142581775762, 1.5937186098843241],
+#          [-0.9425217585337325, 2.0221375910360075],
+#          [0.308461666429229, 2.073547868774212],
+#          [-0.22277787019888762, -1.1138893509944359]]  # try min switch
+_ABCD = [[1.3918710359378075, 1.6384899817144896],
+         [-0.9619391085965819, 2.055620893404116],
+         [0.28945362647234485, 2.1301085562058364],
+         [-0.2319600131397004, -1.1771436721905677],
+         [0.538031750786466, -0.1141618232303694]]
+# [[-1.984, 0.578], [-1.426, -1.73], [-2.016, -0.61], [1.096, 0.274]]
+pos_par_td = [[1.3918710359378075, 1.6384899817144896], 'min', [-0.9619391085965819, 2.055620893404116], 'min', None, [0.28945362647234485, 2.1301085562058364], 'sad', None, [-0.2319600131397004, -1.1771436721905677], 'sad', None]
+# pos_par_td = [[-0.9425217585337325, 2.0221375910360075], 'min', [1.4052142581775762, 1.5937186098843241], 'min', None, [0.308461666429229, 2.073547868774212], 'sad', None, [-0.22277787019888762, -1.1138893509944359], 'sad', None]
 ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
 
 if len(ABCD) < 4:
     symm()
     shear(0.01)
 else:
+    # shear(0.3)
     shear(0.1)
 
 source(zs, *pos_par_td)
 
-tdelay = [0, 130]
-tderr = [0, 3]
+tdelay = [0, 1.5, 9.61, 87]
+tderr = [0, 2.49, 1.97, 8]
+# tdelay = [0, 1.5, 9.61, 87]
+# tderr = [0, 2.49, 1.97, 8]
 # explicit time delays
 if tdelay:
     for i, td in enumerate(tdelay[1:]):
         if td:
             delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
 
+extx, exty = 0.5141027773820483, -0.13709407396854595
+extm = PointMass(extx, exty, rc=0)
+external_mass(extm, (0.05, 10))
 
 ###############################################################################
 model(1000)

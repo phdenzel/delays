@@ -14,7 +14,7 @@ except ImportError:
 
 ### Meta info
 dpath = ''
-fname = 'RXJ0911+0551'
+fname = 'HE1104-1805'
 fpath = os.path.join(dpath, fname)
 glass_basis('glass.basis.pixels', solver='rwalk')
 meta(author='GLSCFactory', notes='single-config-mode')
@@ -32,20 +32,24 @@ include_prior(
     'profile_steepness',
     'J3gradient',
     'magnification',
+#    'hubble_constant',
     'PLsmoothness3',
-#   'shared_h',
-    'external_mass',
+#    'shared_h',
+#    'external_mass',
     'external_shear'
 )
 
 
 ### Cosmology
 omega(0.27, 0.73)
+# hubble_constant(72.032)
+# hubble_time(13.7)
+
 
 ###############################################################################
 ### Lens
-name = 'RXJ0911+0551'
-zl = 0.769
+name = 'HE1104-1805'
+zl = 0.729
 globject(name)
 zlens(zl)
 
@@ -54,12 +58,20 @@ steepness(0.5, None)
 # hires(1, 3)
 
 smooth(2, include_central_pixel=False)
-local_gradient(45)
+local_gradient(60)
+
+# mapr = 4.233
+# maprad(mapr)
+
 
 ### Source
-zs = 2.763
+zs = 2.32
 
-pos_par_td = [[-2.2662, 0.2904], 'min', [0.963, -0.0951], 'min', None, [0.7019, -0.5020], 'sad', None, [0.6861, 0.4555], 'sad', None]
+# _ABCD = [[-1.6857490220228313, 1.227908880663085],
+# 	   [0.9296410047920035, -0.57711717391165]]
+# [[-1.936, -0.832], [0.965, 0.5]]
+# _parity =
+pos_par_td = [[-1.6857490220228313, 1.227908880663085], 'min', [0.9296410047920035, -0.57711717391165], 'sad', None]
 ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
 
 if len(ABCD) < 4:
@@ -70,18 +82,21 @@ else:
 
 source(zs, *pos_par_td)
 
-tdelay = [0, 146, None, None]
-tderr = [0, 8, None, None]
+tdelay = [0, 152.2]
+tderr = [0, 2.8]
 # explicit time delays
 if tdelay:
     for i, td in enumerate(tdelay[1:]):
         if td:
             delay(ABCD[i], ABCD[i+1], [td-tderr[i+1], td+tderr[i+1]])
 
-# Kneib et al. 2000
-extx, exty = -0.7582, 0.6658
-extm = PointMass(extx, exty, rc=0)
-external_mass(extm, (0.01, 10))
+
+# extx, exty = 5.25, 4.1
+# extm = PointMass(extx, exty, rc=0)
+# external_mass(extm, (0.01, 100))
+# extx, exty = 4.7, -6.
+# extm = PointMass(extx, exty, rc=0)
+# external_mass(extm, (0.01, 100))
 
 
 ###############################################################################
@@ -90,5 +105,5 @@ savestate(fpath+'.state')
 
 if sound:
     sound.play()
-    sleep(1)
+    sleep(2)
     sound.stop()
