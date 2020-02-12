@@ -14,7 +14,7 @@ import numpy as np
 
 ### Meta info
 dpath = ''
-fname = 'all_CMB'
+fname = 'all_CMB_dg60'
 fpath = os.path.join(dpath, fname)
 glass_basis('glass.basis.pixels', solver='rwalk')
 meta(author='GLSCFactory', notes='single-config-mode')

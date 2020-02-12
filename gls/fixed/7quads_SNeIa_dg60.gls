@@ -14,7 +14,7 @@ import numpy as np
 
 ### Meta info
 dpath = ''
-fname = '7quads_SNeIa'
+fname = '7quads_SNeIa_dg60'
 fpath = os.path.join(dpath, fname)
 glass_basis('glass.basis.pixels', solver='rwalk')
 meta(author='GLSCFactory', notes='single-config-mode')
