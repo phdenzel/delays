@@ -165,6 +165,46 @@ external_mass(extm, (0.1, 10))
 
 ###############################################################################
 ### Lens
+name = 'DESJ0408-5354'
+zl = 0.597
+globject(name)
+zlens(zl)
+
+pixrad(8)
+steepness(0.5, None)
+# hires(1, 3)
+
+smooth(2, include_central_pixel=False)
+local_gradient(60)
+
+### Source
+zs = 2.375
+
+
+pos_par_td = [[1.245994800023685, -2.1517111882405926], 'min',
+	      [0.04347029255249936, 1.8638715541984048], 'min', None,
+	      [1.2633021458035054, 1.7739854656669671], 'sad', None,
+              [-1.3680138795792833, 0.15302857747621412], 'sad', None]
+ABCD = pos_par_td[0:1]+pos_par_td[2:-1:3]
+
+if len(ABCD) < 4:
+    symm()
+    shear(0.01)
+else:
+    shear(0.1)
+
+source(zs, *pos_par_td)
+
+tdelay = [0, 112.1, 42.4, 155.5]
+tderr = [0, 2.1, 17.6, 12.8]
+
+delay(ABCD[0], ABCD[1], [tdelay[1]-tderr[1], tdelay[1]+tderr[1]])
+delay(ABCD[1], ABCD[3], [tdelay[2]-tderr[2], tdelay[2]+tderr[2]])
+delay(ABCD[0], ABCD[3], [tdelay[3]-tderr[3], tdelay[3]+tderr[3]])
+
+
+###############################################################################
+### Lens
 name = 'FBQ0951+2635'
 zl = 0.26
 globject(name)
