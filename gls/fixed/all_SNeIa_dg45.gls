@@ -34,7 +34,7 @@ include_prior(
     'magnification',
     'PLsmoothness3',
     'hubble_constant',
-    'shared_h',
+#    'shared_h',
 #    'source_position_quadrant',
     'external_mass',
     'external_shear'
