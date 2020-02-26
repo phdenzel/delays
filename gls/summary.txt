@@ -1,25 +1,29 @@
 # LENSES
 
-B1422+231      - None  # exclude: contradicting values from literature
-B0218+357      - v2    # D-K:     lens position unsure... time-delays want to be smaller
-B1600+434      - v2    # D-K:     .fits px2arcsec wrong, papers report 1/4 pixel scale
-FBQ0951+2635   - v2    # D-G:     lens position was moved a bit away
-HE1104-1805    - v2    # D-G:     H0 a bit high; ext. masses don't work
-HE2149-2745    - v2    # D-K:     high shear?
-PKS1830-211    - v2    # D-K:     positions hard to identify
-Q0957+561      - v2    # 2D-K:    Fadely et al. 2010 shows additional double
-SBS0909+532    - v2    # D-K:     lens not easily visible
-SBS1520+530    - v2    # D-K:     saddle point a bit scragged; lens position unclear
-SDSSJ1206+4332 - v2    # D-G:     positions work relatively well
-SDSSJ1650+4251 - v2    # D-G:     arc/ring not taken into account, but might be reproduced
+B1422+231      - None  # exclude: contradicting time delay values from literature
+B0218+357      - v3    # D-K:     lens position unsure... time-delays want to be smaller
+B1600+434      - v3    # D-K:     .fits px2arcsec wrong, papers report 1/4 pixel scale
+FBQ0951+2635   - v3    # D-G:     lens position was moved a bit away
+HE1104-1805    - v3    # D-G:     H0 a bit high; ext. masses don't work
+HE2149-2745    - v3    # D-K:     high shear?
+PKS1830-211    - v3    # D-K:     positions hard to identify
+Q0957+561      - v3    # 2D-K:    Fadely et al. 2010 shows additional double
+SBS0909+532    - v3    # D-K:     lens not easily visible
+SBS1520+530    - v3    # D-K:     saddle point a bit scragged; lens position unclear
+SDSSJ1206+4332 - v3    # D-G:     positions work relatively well
+SDSSJ1650+4251 - v3    # D-G:     arc/ring not taken into account, but might be reproduced
 
-B1608+656      - v2    # Q-G:     ext. mass doesn't make much difference
-HE0435-1223    - v2    # Q-G:     an H0 of 71!
-PG1115+080     - v2    # Q-G:     too round?
-RXJ0911+0551   - v2    # Q-K:     ext. mass as satellite in Kneib et al. 2000; no impact
-RXJ1131-1231   - v2    # Q-G:     ext. mass as satellite visible in HST data
-SDSSJ1004+4112 - v2    # Q-G:     straight-forward
-WFIJ2033-4723  - v2    # Q-G:     might need more shear, but otherwise good
+B1608+656      - v3    # Q-G:     ext. mass doesn't make much difference
+HE0435-1223    - v3    # Q-G:     an H0 of 71!
+PG1115+080     - v3    # Q-G:     too round?
+RXJ0911+0551   - v3    # Q-K:     ext. mass as satellite in Kneib et al. 2000; no impact
+RXJ1131-1231   - v3    # Q-G:     ext. mass as satellite visible in HST data
+SDSSJ1004+4112 - v3    # Q-G:     straight-forward
+WFIJ2033-4723  - v3    # Q-G:     might need more shear, but otherwise good
+
+
+# LENSES (second batch)
+HE0047-1756    - v4    # HE0230-2130    - v4    # also known as Q0230-2130HS2209+1914    - v4    # QJ0158-4325    - v4    # also known as CTQ414SDSSJ0246-0825 - v4    # SDSSJ0924+0219 - v4    # SDSSJ1001+5027 - v4    # D-B:     only PS; lens position unclearSDSSJ1226-0006 - v4    # D-K:SDSSJ1335+0118 - v4    # D-K:SDSSJ1339+1310 - v4    # D-B:     only PS; lens position unclearSDSSJ1442+4055 - v4    # D-G:SDSSJ1455+1447 - v4    # D-B:     only PS; lens position unclearSDSSJ1515+1511 - v4    # D-G:     lens position unclearSDSSJ1620+1203 - v4    # D-B:     only PS; lens position unclearWFIJ2026-4536  - v4    # Q-G:     lens visible with F1600W
 
 
 # RUNS
@@ -27,7 +31,7 @@ multi/7quads_dg45            - completed  # 7 lenses,  gls_viewstate
 multi/11double_dg45          - completed  # 11 lenses, gls_viewstate
 multi/all_dg45               - cancelled  # 18 lenses
 multi/7quads_dg60            - @dirac     # 8 lenses
-multi/11double_dg60          - completed  # 11 lenses
+multi/11double_dg60          - completed  # 11 lenses, g
 multi/all_dg60               - @poseidon  # 19 lenses
 
 fixed/7quads_CMB_dg45        - completed  # 7 lenses,  gls_viewstate
@@ -37,8 +41,8 @@ fixed/11doubles_SNeIa_dg45   - cancelled  # 11 lenses
 fixed/all_CMB_dg45           - cancelled  # 18 lenses
 fixed/all_SNeIa_dg45         - cancelled  # 18 lenses
 
-fixed/7quads_CMB_dg60        - completed  # 8 lenses
-fixed/7quads_SNeIa_dg60      - completed  # 8 lenses
+fixed/7quads_CMB_dg60        - completed  # 8 lenses, g
+fixed/7quads_SNeIa_dg60      - completed  # 8 lenses, g
 fixed/11doubles_CMB_dg60     - @dirac     # 11 lenses 
 fixed/11doubles_SNeIa_dg60   - @dirac     # 11 lenses
 fixed/all_CMB_dg60           - @colossus  # 19 lenses
