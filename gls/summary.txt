@@ -22,6 +22,29 @@ SDSSJ1004+4112 - v2    # Q-G:     straight-forward
 WFIJ2033-4723  - v2    # Q-G:     might need more shear, but otherwise good
 
 
+# RUNS
+multi/7quads_dg45            - completed  # 7 lenses,  gls_viewstate
+multi/11double_dg45          - completed  # 11 lenses, gls_viewstate
+multi/all_dg45               - cancelled  # 18 lenses
+multi/7quads_dg60            - @dirac     # 8 lenses
+multi/11double_dg60          - completed  # 11 lenses
+multi/all_dg60               - @poseidon  # 19 lenses
+
+fixed/7quads_CMB_dg45        - completed  # 7 lenses,  gls_viewstate
+fixed/7quads_SNeIa_dg45      - completed  # 7 lenses,  gls_viewstate
+fixed/11doubles_CMB_dg45     - cancelled  # 11 lenses
+fixed/11doubles_SNeIa_dg45   - cancelled  # 11 lenses
+fixed/all_CMB_dg45           - cancelled  # 18 lenses
+fixed/all_SNeIa_dg45         - cancelled  # 18 lenses
+
+fixed/7quads_CMB_dg60        - completed  # 8 lenses
+fixed/7quads_SNeIa_dg60      - completed  # 8 lenses
+fixed/11doubles_CMB_dg60     - @dirac     # 11 lenses 
+fixed/11doubles_SNeIa_dg60   - @dirac     # 11 lenses
+fixed/all_CMB_dg60           - @colossus  # 19 lenses
+fixed/all_SNeIa_dg60         - @poseidon  # 19 lenses
+
+
 # REFERENCES
 
 @article{B0218_Biggs18,
