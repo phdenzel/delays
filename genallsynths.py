@@ -1,4 +1,3 @@
-
 import sys
 import os
 import numpy as np
@@ -18,10 +17,12 @@ import gleam.utils.colors as gcl
 gcl.GLEAMcmaps.register_all()
 
 
+VERBOSE = False
+
 objs = ['B1608+656', 'DESJ0408-5354', 'HE0435-1223', 'PG1115+080',
         'RXJ0911+0551', 'RXJ1131-1231', 'SDSSJ1004+4112', 'WFIJ2033-4723']
 # sigf = [80, 100, 60, 600, 140, 4000, 80, 80]
-sigf = [20, 25, 12, 60, 35, 4000, 80, 80]
+sigf = [20, 100, 12, 160, 35, 3000, 2, 140]
 squarify = [0, 0, 0, 0, 0, 0, 0, 0]
 lmaxf = [0.2500, 0.0075, 0.0075, 0.1000, 0.4000, 0.0100, 0.0100, 0.1000]
 
@@ -41,26 +42,30 @@ print(statefile)
 lm = LensModel(statedir+statefile)
 
 
-for objidx in range(0, 8):
-# for objidx in [3, 4, 5, 7]:
+# for objidx in range(0, 8):
+for objidx in [6,]:
 # for objidx in [5]:
     lens = objs[objidx]
     print(lens)
 
     fitsfile = fitsdir + '{}.fits'.format(lens)
-    print(fitsfile)
+    if VERBOSE:
+        print(fitsfile)
     jsonfile = jsondir + '{}.json'.format(lens)
-    print(jsonfile)
+    if VERBOSE:
+        print(jsonfile)
 
     # LensObject
     with open(jsonfile) as f:
         lo = LensObject.from_json(f)
     lo.squarify(squarify[objidx])
-    print(lo.__v__)
+    if VERBOSE:
+        print(lo.__v__)
 
     # LensModel
     lm.obj_idx = objidx
-    print(lm.__v__)
+    if VERBOSE:
+        print(lm.__v__)
 
     # ReconSrc
     if objidx in [4, 5]:
@@ -106,6 +111,8 @@ for objidx in range(0, 8):
     else:
         reconsrc.inv_proj_matrix(use_mask=False)
     dij = reconsrc.lens_map(mask=True)
+    if objidx in [6,]:
+        print("Data sum: {}".format(dij.size))
     src = reconsrc.plane_map(**kw)
     synth = reconsrc.reproj_map(from_cache=False, save_to_cache=False, **kw)
     residmap = reconsrc.residual_map(nonzero_only=True, within_radius=wrad,
@@ -118,7 +125,6 @@ for objidx in range(0, 8):
     if objidx in [4,]:
         dij = np.fliplr(dij)
         synth = np.fliplr(synth)
-
 
     # Plotting
     lmax = lmaxf[objidx] * np.max(dij)
