@@ -1,5 +1,4 @@
-# LENSES
-
+############################## LENSES
 B1422+231      - None  # exclude: contradicting time delay values from literature
 B0218+357      - v3    # D-K:     lens position unsure... time-delays want to be smaller
 B1600+434      - v3    # D-K:     .fits px2arcsec wrong, papers report 1/4 pixel scale
@@ -22,20 +21,20 @@ SDSSJ1004+4112 - v3    # Q-G:     straight-forward
 WFIJ2033-4723  - v3    # Q-G:     might need more shear, but otherwise good
 
 
-# LENSES (second batch)
+############################## LENSES (second batch)
 HE0047-1756    - v4    # HE0230-2130    - v4    # also known as Q0230-2130HS2209+1914    - v4    # QJ0158-4325    - v4    # also known as CTQ414SDSSJ0246-0825 - v4    # SDSSJ0924+0219 - v4    # SDSSJ1001+5027 - v4    # D-B:     only PS; lens position unclearSDSSJ1226-0006 - v4    # D-K:SDSSJ1335+0118 - v4    # D-K:SDSSJ1339+1310 - v4    # D-B:     only PS; lens position unclearSDSSJ1442+4055 - v4    # D-G:SDSSJ1455+1447 - v4    # D-B:     only PS; lens position unclearSDSSJ1515+1511 - v4    # D-G:     lens position unclearSDSSJ1620+1203 - v4    # D-B:     only PS; lens position unclearWFIJ2026-4536  - v4    # Q-G:     lens visible with F1600W
 
 
-# RUNS
+############################## STATUS OF RUNS
 multi/7quads_dg45            - completed  # 7 lenses,  gls_viewstate
 multi/11double_dg45          - completed  # 11 lenses, gls_viewstate
 multi/all_dg45               - cancelled  # 18 lenses
-multi/7quads_dg60            - @dirac     # 8 lenses
+multi/7quads_dg60            - completed  # 8 lenses, g
 multi/11double_dg60          - completed  # 11 lenses, g
-multi/all_dg60               - @poseidon  # 19 lenses
+multi/all_dg60               - completed  # 19 lenses
 
-fixed/7quads_CMB_dg45        - completed  # 7 lenses,  gls_viewstate
-fixed/7quads_SNeIa_dg45      - completed  # 7 lenses,  gls_viewstate
+fixed/7quads_CMB_dg45        - completed  # 7 lenses, gls_viewstate
+fixed/7quads_SNeIa_dg45      - completed  # 7 lenses, gls_viewstate
 fixed/11doubles_CMB_dg45     - cancelled  # 11 lenses
 fixed/11doubles_SNeIa_dg45   - cancelled  # 11 lenses
 fixed/all_CMB_dg45           - cancelled  # 18 lenses
@@ -43,13 +42,23 @@ fixed/all_SNeIa_dg45         - cancelled  # 18 lenses
 
 fixed/7quads_CMB_dg60        - completed  # 8 lenses, g
 fixed/7quads_SNeIa_dg60      - completed  # 8 lenses, g
-fixed/11doubles_CMB_dg60     - @dirac     # 11 lenses 
-fixed/11doubles_SNeIa_dg60   - @dirac     # 11 lenses
+fixed/11doubles_CMB_dg60     - completed  # 11 lenses, g 
+fixed/11doubles_SNeIa_dg60   - completed  # 11 lenses, g
 fixed/all_CMB_dg60           - @colossus  # 19 lenses
-fixed/all_SNeIa_dg60         - @poseidon  # 19 lenses
+fixed/all_SNeIa_dg60         - completed  # 19 lenses
 
 
-# REFERENCES
+############################## RESULTS (H0: km/s/Mpc)
+7quads_dg60 (8 quads) 		- H0: 71.31 +/- 3.86 3.61
+
+7quads_dg45 (7 quads) 		- H0: 59.72 +/- 3.11 2.90
+11doubles_dg45 (11 doubles) 	- H0: 41.87 +/- 1.54 1.56
+11doubles_dg60 (11 doubles)	- H0: 40.91 +/- 1.62 1.90
+SNeIa 				- H0: 73.50 (fixed)
+CMB				- H0: 67.40 (fixed)
+
+
+############################## REFERENCES
 
 @article{B0218_Biggs18,
   author = {{Biggs}, A.~D. and {Browne}, I.~W.~A.},
@@ -150,4 +159,9 @@ fixed/all_SNeIa_dg60         - @poseidon  # 19 lenses
 	URL = {https://doi.org/10.1086%2F499766},
 }
 
+
+
+Latest line:
+
+B THREAD   8]  58/1884  25.3% accepted  (2298799/6785397 Acc/Rej)  twiddle  1.74  time 2588.954s backlog 8
 
