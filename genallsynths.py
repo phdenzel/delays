@@ -1,5 +1,6 @@
 import sys
 import os
+import pprint
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -16,9 +17,17 @@ from gleam.utils.rgb_map import radial_mask
 import gleam.utils.colors as gcl
 gcl.GLEAMcmaps.register_all()
 
+defaultrc = mpl.rcParams.copy()
+mpl.rcParams = defaultrc
+
+# mpl.rcParams.update(mpl.rcParamsDefault)
+# mpl.rc('text', usetex=True)
+# mpl.rc('font',**{'family':'serif','serif':['Palatino']})
+
 
 VERBOSE = False
 VIEWSTATE_PLOTS = False
+PROFILES_PLOT = False
 SYNTH_PLOTS = True
 
 objs = ['B1608+656', 'DESJ0408-5354', 'HE0435-1223', 'PG1115+080',
@@ -44,9 +53,9 @@ print(statefile)
 lm = LensModel(statedir+statefile)
 
 
-for objidx in range(0, 8):
+# for objidx in range(0, 8):
 # for objidx in [0, 1, 2, 3, 4, 5, 7]:
-# for objidx in [6,]:
+for objidx in [6,]:
     lens = objs[objidx]
     print(lens)
 
@@ -151,6 +160,9 @@ for objidx in range(0, 8):
     wrad = 0.8
     if objidx in [3, 4, 7]:
         wrad = 0.5
+    reduced = False
+    if objidx in [6]:
+        reduced = True
 
     reconsrc.chmdl(-1)
     if objidx in [6]:
@@ -165,7 +177,7 @@ for objidx in range(0, 8):
     residmap = reconsrc.residual_map(nonzero_only=True, within_radius=wrad,
                                      from_cache=False, save_to_cache=False,
                                      **kw)
-    chi2 = reconsrc.reproj_chi2(reduced=False, nonzero_only=True,
+    chi2 = reconsrc.reproj_chi2(reduced=reduced, nonzero_only=True,
                                 within_radius=wrad, from_cache=False,
                                 save_to_cache=False, **kw)
     print("Chi2: {}".format(chi2))
@@ -178,6 +190,11 @@ for objidx in range(0, 8):
     sbf = smaxf[objidx]*(reconsrc.lensobject.px2arcsec[0]/reconsrc.src_pxscale)**2
 
     # Lens data
+    if objidx in [3]:
+        dij = np.log10(dij+1)
+        synth = np.log10(synth+1)
+        lmax = np.log10(0.2*lmax+1)
+        
     plt.imshow(dij, extent=reconsrc.extent, cmap='gravic', origin='lower',
                interpolation='bicubic', vmin=0, vmax=lmax)
     c = reconsrc.lensobject.roi.buffer.center
@@ -210,10 +227,10 @@ for objidx in range(0, 8):
     plt.gcf().axes[0].get_xaxis().set_visible(False)
     plt.gcf().axes[0].get_yaxis().set_visible(False)
     plt.tight_layout()
-    plt.savefig(
-        "results/{}_{}_src.pdf".format(lens,
-                                       lm.filename.replace('.state', '')),
-        transparent=True, bbox_inches='tight', pad_inches=0)
+    # plt.savefig(
+    #     "results/{}_{}_src.pdf".format(lens,
+    #                                    lm.filename.replace('.state', '')),
+    #     transparent=True, bbox_inches='tight', pad_inches=0)
     plt.close()
 
     # Synthetic image
@@ -263,8 +280,44 @@ for objidx in range(0, 8):
     plt.gcf().axes[0].get_xaxis().set_visible(False)
     plt.gcf().axes[0].get_yaxis().set_visible(False)
     plt.tight_layout()
-    plt.savefig(
-        "results/{}_{}_resid.pdf".format(lens,
-                                         lm.filename.replace('.state', '')),
-        transparent=True, bbox_inches='tight', pad_inches=0)
+    # plt.savefig(
+    #     "results/{}_{}_resid.pdf".format(lens,
+    #                                      lm.filename.replace('.state', '')),
+    #     transparent=True, bbox_inches='tight', pad_inches=0)
     plt.close()
+
+
+if PROFILES_PLOT:
+    fig, axes = plt.subplots(4, 2, sharex=False, sharey=True, figsize=(7, 11))
+    for i in range(len(objs)):
+        lm.obj_idx = i
+        print(i)
+        yextent = [0.65, 3.00]
+        plt.sca(axes[i // 2][i % 2])
+        plots, _, _ = kappa_profiles_plot(lm, obj_index=i, ensemble_average=True, refined=True,
+                                          interpolate=150, levels=10, as_range=True, maprad=lm.maprad,
+                                          pixrad=lm.pixrad, adjust_limits=True, annotation_color='white',
+                                          einstein_radius_indicator=True, kappa1_line=True,
+                                          label_axes=False, fontsize=22)
+        xlim = list(plt.gca().axes.get_xlim())
+        plt.contourf(np.ones((4, 4))*plots[0].levels[0], extent=xlim+yextent,
+                     cmap='agaveglitch', levels=plots[0].levels, zorder=-99)
+        plot_labelbox(objs[i], position='top right', padding=(0.03, 0.04), color='white',
+                      fontsize=8, fontname='Computer Modern', family='sans-serif')
+        plt.ylim(*yextent)
+        # plt.rcParams['mathtext.fontset'] = 'stixsans'
+        if (i % 2) == 0:
+            if (i // 2) == 2:
+                axes[i // 2][i % 2].set_ylabel(r'$\mathsf{\kappa}_{<\mathsf{R}}$', fontsize=22)
+        if (i // 2) > 2:
+            if (i % 2) == 0:
+                axes[i // 2][i % 2].set_xlabel(r'R [arcsec]', fontsize=16)
+        # else:
+        #     axes[i // 2][i % 2].set_xticklabels([""]*len(axes[i // 2][i % 2].axes.get_xticklabels()))
+        axes[i // 2][i % 2].set_frame_on(True)
+    axes[3][0].xaxis.set_label_coords(1, -0.175)
+    axes[2][0].yaxis.set_label_coords(-0.1, 1)
+    fig.subplots_adjust(wspace=0.025)
+    plt.savefig("results/profiles.pdf", transparent=True, bbox_inches='tight', pad_inches=0)
+    plt.close()
+    # plt.show()
